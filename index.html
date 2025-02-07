@@ -7,41 +7,42 @@
 </head>
 <body>
     <h1>TXT Dosyasını Yükle</h1>
-    <input type="file" id="txtFileInput" accept=".txt">
+    <input type="file" id="txtDosyaGirdisi" accept=".txt">
     <br><br>
-    <a id="downloadLink" style="display:none;">Düzeltilmiş Dosyayı İndir</a>
+    <a id="indirmeBaglantisi" style="display:none;">Düzeltilmiş Dosyayı İndir</a>
 
     <script>
-        document.getElementById('txtFileInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const content = e.target.result;
-                    const correctedContent = content
+        document.getElementById('txtDosyaGirdisi').addEventListener('change', function(etkinlik) {
+            const dosya = etkinlik.target.files[0];
+            if (dosya) {
+                const okuyucu = new FileReader();
+                okuyucu.onload = function(e) {
+                    let icerik = e.target.result;
+                    
+                    // Tüm harfleri küçük harfe çevirme
+                    icerik = icerik.toLowerCase();
+
+                    let duzeltilmisIcerik = icerik
                         .replace(/ç/g, 'c')
                         .replace(/ğ/g, 'g')
                         .replace(/ı/g, 'i')
                         .replace(/ö/g, 'o')
                         .replace(/ş/g, 's')
                         .replace(/ü/g, 'u')
-                        .replace(/Ç/g, 'C')
-                        .replace(/Ğ/g, 'G')
-                        .replace(/İ/g, 'I')
-                        .replace(/Ö/g, 'O')
-                        .replace(/Ş/g, 'S')
-                        .replace(/Ü/g, 'U')
                         .replace(/ /g, '-');
-
-                    const blob = new Blob([correctedContent], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const downloadLink = document.getElementById('downloadLink');
-                    downloadLink.href = url;
-                    downloadLink.download = 'duzeltilmis-dosya.txt';
-                    downloadLink.style.display = 'block';
-                    downloadLink.textContent = 'Düzeltilmiş Dosyayı İndir';
+                    
+                    // Başına pozitif.com/ ekleme
+                    duzeltilmisIcerik = 'pozitif.com/' + duzeltilmisIcerik;
+                    
+                    const veriPaketi = new Blob([duzeltilmisIcerik], { type: 'text/plain' });
+                    const url = URL.createObjectURL(veriPaketi);
+                    const indirmeBaglantisi = document.getElementById('indirmeBaglantisi');
+                    indirmeBaglantisi.href = url;
+                    indirmeBaglantisi.download = 'duzeltilmis-dosya.txt';
+                    indirmeBaglantisi.style.display = 'block';
+                    indirmeBaglantisi.textContent = 'Düzeltilmiş Dosyayı İndir';
                 };
-                reader.readAsText(file);
+                okuyucu.readAsText(dosya);
             }
         });
     </script>
