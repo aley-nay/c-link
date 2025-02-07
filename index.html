@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TXT Dosyasını Düzelt</title>
+    <title>Link Oluştur</title>
 </head>
 <body>
     <h1>TXT Dosyasını Yükle</h1>
@@ -17,14 +17,13 @@
             if (dosya) {
                 const okuyucu = new FileReader();
                 okuyucu.onload = function(e) {
-                    let icerik = e.target.result;
-                    
-                    // Tüm harfleri küçük harfe çevirme
-                    icerik = icerik.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+                    let icerik = e.target.result.toLowerCase();
                     
                     let satirlar = icerik.split('\n');
-                    let duzeltilmisSatirlar = satirlar.map(satir => {
-                        return 'pozitif.com/' + satir
+                    let duzeltilmisSatirlar = [];
+                    
+                    satirlar.forEach(satir => {
+                        let duzeltilmisSatir = 'https://pozitifsistem.com/pozitif-kart/' + satir
                             .replace(/ç/g, 'c')
                             .replace(/ğ/g, 'g')
                             .replace(/ı/g, 'i')
@@ -32,6 +31,7 @@
                             .replace(/ş/g, 's')
                             .replace(/ü/g, 'u')
                             .replace(/ /g, '-');
+                        duzeltilmisSatirlar.push(duzeltilmisSatir);
                     });
                     
                     let duzeltilmisIcerik = duzeltilmisSatirlar.join('\n');
