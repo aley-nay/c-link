@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXT Dosyasını Düzelt</title>
+</head>
+<body>
+    <h1>TXT Dosyasını Yükle</h1>
+    <input type="file" id="txtFileInput" accept=".txt">
+    <br><br>
+    <a id="downloadLink" style="display:none;">Düzeltilmiş Dosyayı İndir</a>
+
+    <script>
+        document.getElementById('txtFileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    const correctedContent = content
+                        .replace(/ç/g, 'c')
+                        .replace(/ğ/g, 'g')
+                        .replace(/ı/g, 'i')
+                        .replace(/ö/g, 'o')
+                        .replace(/ş/g, 's')
+                        .replace(/ü/g, 'u')
+                        .replace(/Ç/g, 'C')
+                        .replace(/Ğ/g, 'G')
+                        .replace(/İ/g, 'I')
+                        .replace(/Ö/g, 'O')
+                        .replace(/Ş/g, 'S')
+                        .replace(/Ü/g, 'U')
+                        .replace(/ /g, '-');
+
+                    const blob = new Blob([correctedContent], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const downloadLink = document.getElementById('downloadLink');
+                    downloadLink.href = url;
+                    downloadLink.download = 'duzeltilmis-dosya.txt';
+                    downloadLink.style.display = 'block';
+                    downloadLink.textContent = 'Düzeltilmiş Dosyayı İndir';
+                };
+                reader.readAsText(file);
+            }
+        });
+    </script>
+</body>
+</html>
