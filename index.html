@@ -22,17 +22,19 @@
                     // Tüm harfleri küçük harfe çevirme
                     icerik = icerik.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
                     
-                    let duzeltilmisIcerik = icerik
-                        .replace(/ç/g, 'c')
-                        .replace(/ğ/g, 'g')
-                        .replace(/ı/g, 'i')
-                        .replace(/ö/g, 'o')
-                        .replace(/ş/g, 's')
-                        .replace(/ü/g, 'u')
-                        .replace(/ /g, '-');
+                    let satirlar = icerik.split('\n');
+                    let duzeltilmisSatirlar = satirlar.map(satir => {
+                        return 'pozitif.com/' + satir
+                            .replace(/ç/g, 'c')
+                            .replace(/ğ/g, 'g')
+                            .replace(/ı/g, 'i')
+                            .replace(/ö/g, 'o')
+                            .replace(/ş/g, 's')
+                            .replace(/ü/g, 'u')
+                            .replace(/ /g, '-');
+                    });
                     
-                    // Başına pozitif.com/ ekleme
-                    duzeltilmisIcerik = 'pozitif.com/' + duzeltilmisIcerik;
+                    let duzeltilmisIcerik = duzeltilmisSatirlar.join('\n');
                     
                     const veriPaketi = new Blob([duzeltilmisIcerik], { type: 'text/plain' });
                     const url = URL.createObjectURL(veriPaketi);
