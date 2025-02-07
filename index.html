@@ -20,8 +20,8 @@
                     let icerik = e.target.result;
                     
                     // Tüm harfleri küçük harfe çevirme
-                    icerik = icerik.toLowerCase();
-
+                    icerik = icerik.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+                    
                     let duzeltilmisIcerik = icerik
                         .replace(/ç/g, 'c')
                         .replace(/ğ/g, 'g')
